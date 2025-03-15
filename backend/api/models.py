@@ -11,17 +11,17 @@ from django.db import models
 class CPU(models.Model):
     cpu_id = models.AutoField(db_column='CPU_ID', primary_key=True)  # Field name made lowercase.
     manufacturer = models.CharField(db_column='Manufacturer', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    model = models.CharField(db_column='Model', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    socket_type = models.CharField(db_column='Socket_Type', max_length=50, blank=True, null=True)  # Field name made lowercase.
-    core_count = models.IntegerField(db_column='Core_Count', blank=True, null=True)  # Field name made lowercase.
+    model = models.CharField(db_column='Model', max_length=100)  # Field name made lowercase.
+    socket_type = models.CharField(db_column='Socket_Type', max_length=50)  # Field name made lowercase.
+    core_count = models.IntegerField(db_column='Core_Count')  # Field name made lowercase.
     thread_count = models.IntegerField(db_column='Thread_Count', blank=True, null=True)  # Field name made lowercase.
     base_clock_ghz = models.DecimalField(db_column='Base_Clock_GHz', max_digits=4, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     boost_clock_ghz = models.DecimalField(db_column='Boost_Clock_GHz', max_digits=4, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     l3_cache_mb = models.IntegerField(db_column='L3_Cache_MB', blank=True, null=True)  # Field name made lowercase.
     tdp_watts = models.IntegerField(db_column='TDP_Watts', blank=True, null=True)  # Field name made lowercase.
     integrated_graphics = models.IntegerField(db_column='Integrated_Graphics', blank=True, null=True)  # Field name made lowercase.
-    price_inr = models.DecimalField(db_column='Price_INR', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    rating = models.DecimalField(db_column='Rating', max_digits=3, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    price_inr = models.IntegerField(db_column='Price_INR')  # Field name made lowercase.
+    rating = models.FloatField(db_column='Rating')  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -31,23 +31,28 @@ class CPU(models.Model):
 class GPU(models.Model):
     gpu_id = models.AutoField(db_column='GPU_ID', primary_key=True)  # Field name made lowercase.
     manufacturer = models.CharField(db_column='Manufacturer', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    model = models.CharField(db_column='Model', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    vram_gb = models.IntegerField(db_column='VRAM_GB', blank=True, null=True)  # Field name made lowercase.
+    model = models.CharField(db_column='Model', max_length=100)  # Field name made lowercase.
+    vram_gb = models.IntegerField(db_column='VRAM_GB')  # Field name made lowercase.
     memory_type = models.CharField(db_column='Memory_Type', max_length=20, blank=True, null=True)  # Field name made lowercase.
     interface = models.IntegerField(db_column='Interface', blank=True, null=True)  # Field name made lowercase.
-    price_inr = models.DecimalField(db_column='Price_INR', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    rating = models.DecimalField(db_column='Rating', max_digits=3, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    price_inr = models.IntegerField(db_column='Price_INR')  # Field name made lowercase.
+    rating = models.FloatField(db_column='Rating')  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'GPUs'
 
+    def is_compatible_with(self, motherboard):
+        # Check if the GPU is compatible with the motherboard
+        # For example, check if the motherboard has the required PCIe slot
+        return motherboard.has_pcie_slot()
+
 
 class Motherboard(models.Model):
     motherboard_id = models.AutoField(db_column='Motherboard_ID', primary_key=True)  # Field name made lowercase.
     manufacturer = models.CharField(db_column='Manufacturer', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    model = models.CharField(db_column='Model', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    socket_type = models.CharField(db_column='Socket_Type', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    model = models.CharField(db_column='Model', max_length=100)  # Field name made lowercase.
+    socket_type = models.CharField(db_column='Socket_Type', max_length=50)  # Field name made lowercase.
     chipset = models.CharField(db_column='Chipset', max_length=50, blank=True, null=True)  # Field name made lowercase.
     memory_slots = models.IntegerField(db_column='Memory_Slots', blank=True, null=True)  # Field name made lowercase.
     max_memory_gb = models.IntegerField(db_column='Max_Memory_GB', blank=True, null=True)  # Field name made lowercase.
@@ -56,26 +61,31 @@ class Motherboard(models.Model):
     m2_slots = models.IntegerField(db_column='M2_Slots', blank=True, null=True)  # Field name made lowercase.
     sata_ports = models.IntegerField(db_column='SATA_Ports', blank=True, null=True)  # Field name made lowercase.
     form_factor = models.CharField(db_column='Form_Factor', max_length=20, blank=True, null=True)  # Field name made lowercase.
-    price_inr = models.DecimalField(db_column='Price_INR', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    rating = models.DecimalField(db_column='Rating', max_digits=3, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    price_inr = models.IntegerField(db_column='Price_INR')  # Field name made lowercase.
+    rating = models.FloatField(db_column='Rating')  # Field name made lowercase.
     pcie_version_primary = models.IntegerField(db_column='PCIe_Version_Primary', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'Motherboards'
 
+    def has_pcie_slot(self):
+        # Check if the motherboard has a PCIe slot
+        # This is a simplified example; actual implementation might involve more checks
+        return True  # Assume all motherboards have a PCIe slot for simplicity
+
 
 class PSU(models.Model):
     psu_id = models.AutoField(db_column='PSU_ID', primary_key=True)  # Field name made lowercase.
     manufacturer = models.CharField(db_column='Manufacturer', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    model = models.CharField(db_column='Model', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    wattage = models.IntegerField(db_column='Wattage', blank=True, null=True)  # Field name made lowercase.
+    model = models.CharField(db_column='Model', max_length=100)  # Field name made lowercase.
+    wattage = models.IntegerField(db_column='Wattage')  # Field name made lowercase.
     efficiency_rating = models.CharField(db_column='Efficiency_Rating', max_length=20, blank=True, null=True)  # Field name made lowercase.
     form_factor = models.CharField(db_column='Form_Factor', max_length=20, blank=True, null=True)  # Field name made lowercase.
     modular_type = models.CharField(db_column='Modular_Type', max_length=20, blank=True, null=True)  # Field name made lowercase.
     connectors = models.CharField(db_column='Connectors', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    price_inr = models.DecimalField(db_column='Price_INR', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    rating = models.DecimalField(db_column='Rating', max_digits=3, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    price_inr = models.IntegerField(db_column='Price_INR')  # Field name made lowercase.
+    rating = models.FloatField(db_column='Rating')  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -85,8 +95,8 @@ class PSU(models.Model):
 class RAM(models.Model):
     ram_id = models.AutoField(db_column='RAM_ID', primary_key=True)  # Field name made lowercase.
     manufacturer = models.CharField(db_column='Manufacturer', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    model = models.CharField(db_column='Model', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    capacity_gb = models.IntegerField(db_column='Capacity_GB', blank=True, null=True)  # Field name made lowercase.
+    model = models.CharField(db_column='Model', max_length=100)  # Field name made lowercase.
+    capacity_gb = models.IntegerField(db_column='Capacity_GB')  # Field name made lowercase.
     module_count = models.IntegerField(db_column='Module_Count', blank=True, null=True)  # Field name made lowercase.
     total_capacity_gb = models.IntegerField(db_column='Total_Capacity_GB', blank=True, null=True)  # Field name made lowercase.
     memory_type = models.CharField(db_column='Memory_Type', max_length=20, blank=True, null=True)  # Field name made lowercase.
@@ -94,26 +104,31 @@ class RAM(models.Model):
     latency_cl = models.IntegerField(db_column='Latency_CL', blank=True, null=True)  # Field name made lowercase.
     voltage_v = models.DecimalField(db_column='Voltage_V', max_digits=3, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     rgb = models.IntegerField(db_column='RGB', blank=True, null=True)  # Field name made lowercase.
-    price_inr = models.DecimalField(db_column='Price_INR', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    rating = models.DecimalField(db_column='Rating', max_digits=3, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    price_inr = models.IntegerField(db_column='Price_INR')  # Field name made lowercase.
+    rating = models.FloatField(db_column='Rating')  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'RAMs'
 
+    def is_compatible_with(self, motherboard):
+        # Check if the RAM is compatible with the motherboard
+        # For example, check if the motherboard supports the RAM type (e.g., DDR4)
+        return True  # Simplified compatibility check
+
 
 class Storage(models.Model):
     storage_id = models.AutoField(db_column='Storage_ID', primary_key=True)  # Field name made lowercase.
     manufacturer = models.CharField(db_column='Manufacturer', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    model = models.CharField(db_column='Model', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    capacity_gb = models.IntegerField(db_column='Capacity_GB', blank=True, null=True)  # Field name made lowercase.
+    model = models.CharField(db_column='Model', max_length=100)  # Field name made lowercase.
+    capacity_gb = models.IntegerField(db_column='Capacity_GB')  # Field name made lowercase.
     storage_type = models.CharField(db_column='Storage_Type', max_length=20, blank=True, null=True)  # Field name made lowercase.
     interface = models.CharField(db_column='Interface', max_length=50, blank=True, null=True)  # Field name made lowercase.
     form_factor = models.CharField(db_column='Form_Factor', max_length=20, blank=True, null=True)  # Field name made lowercase.
     read_speed_mbps = models.IntegerField(db_column='Read_Speed_MBps', blank=True, null=True)  # Field name made lowercase.
     write_speed_mbps = models.IntegerField(db_column='Write_Speed_MBps', blank=True, null=True)  # Field name made lowercase.
-    price_inr = models.DecimalField(db_column='Price_INR', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    rating = models.DecimalField(db_column='Rating', max_digits=3, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
+    price_inr = models.IntegerField(db_column='Price_INR')  # Field name made lowercase.
+    rating = models.FloatField(db_column='Rating')  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -241,7 +256,6 @@ class professional(models.Model):
     ram = models.CharField(max_length=100)
     storage = models.CharField(max_length=100)
     psu = models.CharField(max_length=100)
-    cabinet = models.CharField(max_length=100)
     price_inr = models.DecimalField(max_digits=10, decimal_places=2)
     class Meta:
         db_table = "professional"
@@ -257,7 +271,6 @@ class enthusiast(models.Model):
     ram = models.CharField(max_length=100)
     storage = models.CharField(max_length=100)
     psu = models.CharField(max_length=100)
-    cabinet = models.CharField(max_length=100)
     price_inr = models.DecimalField(max_digits=10, decimal_places=2)
     class Meta:
         db_table = "enthusiast"
@@ -273,7 +286,6 @@ class gamingbuilds(models.Model):
     ram = models.CharField(max_length=100)
     storage = models.CharField(max_length=100)
     psu = models.CharField(max_length=100)
-    cabinet = models.CharField(max_length=100)
     price_inr = models.DecimalField(max_digits=10, decimal_places=2)
     class Meta:
         db_table = "gamingbuilds"
@@ -289,7 +301,6 @@ class budgetbuild(models.Model):
     ram = models.CharField(max_length=100)
     storage = models.CharField(max_length=100)
     psu = models.CharField(max_length=100)
-    cabinet = models.CharField(max_length=100)
     price_inr = models.DecimalField(max_digits=10, decimal_places=2)
     class Meta:
         db_table = "budgetbuild"
@@ -305,7 +316,7 @@ class workstations(models.Model):
     ram = models.CharField(max_length=100)
     storage = models.CharField(max_length=100)
     psu = models.CharField(max_length=100)
-    cabinet = models.CharField(max_length=100)
+    # cabinet = models.CharField(max_length=100)
     price_inr = models.DecimalField(max_digits=10, decimal_places=2)
     class Meta:
         db_table = "workstations"

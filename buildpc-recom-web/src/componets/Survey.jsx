@@ -1,343 +1,452 @@
 import { useState } from "react";
 import axios from "axios";
 
+/**
+ * UserPreferences component renders a survey for users to select their PC build preferences.
+ * It dynamically navigates through questions based on user choices and collects answers.
+ *
+ * @component
+ *
+ * @example
+ * return (
+ *   <UserPreferences />
+ * )
+ *
+ * @returns {JSX.Element} The rendered component.
+ *
+ * @typedef {Object} Question
+ * @property {number|string} id - The unique identifier for the question.
+ * @property {string} text - The question text.
+ * @property {Array<Option>} options - The available options for the question.
+ *
+ * @typedef {Object} Option
+ * @property {string} text - The option text.
+ * @property {number|string} next - The id of the next question or "custom" for custom input.
+ * @property {number} [min] - The minimum budget for custom input.
+ *
+ * @typedef {Object} Answer
+ * @property {number|string} questionId - The id of the answered question.
+ * @property {string} answer - The selected answer text.
+ *
+ * @typedef {Object} Recommendation
+ * @property {string} cpu - The recommended CPU.
+ * @property {string} gpu - The recommended GPU.
+ * @property {string} ram - The recommended RAM.
+ * @property {string} storage - The recommended storage.
+ * @property {string} psu - The recommended PSU.
+ * @property {number} total_cost - The total cost of the recommended build.
+ *
+ * @state {number} currentQuestion - The id of the current question being displayed.
+ * @state {Array<Answer>} answers - The list of answers selected by the user.
+ * @state {Recommendation|null} recommendation - The recommended PC build based on user answers.
+ * @state {string|null} error - The error message if the recommendation fetch fails.
+ * @state {string} customBudget - The custom budget input by the user.
+ * @state {boolean} showCustomInput - Whether to show the custom budget input field.
+ * @state {number} minBudget - The minimum budget for the custom input.
+ *
+ * @function handleOptionClick - Handles the click event on an option button.
+ * @param {Option} option - The selected option.
+ *
+ * @function handleCustomBudgetChange - Handles the change event on the custom budget input field.
+ * @param {Event} event - The change event.
+ *
+ * @function handleCustomBudgetSubmit - Handles the submit event for the custom budget input field.
+ * @param {Event} event - The submit event.
+ *
+ * @function handleReset - Resets the survey to its initial state.
+ *
+ * @function handleSubmit - Submits the answers and fetches the recommendation from the server.
+ */
 export default function UserPreferences() {
+  // Define the questions array with dynamic connections after budget
   const questions = [
     {
       id: 1,
-      text: "Main use for PC?",
+      text: "What are you looking for?",
       options: [
-        { text: "Budget PC Builds", next: 4 },
-        { text: "Gaming PC Builds", next: 2 },
-        { text: "Workstation PC Builds", next: 3 },
-        { text: "Professional & Enterprise Use", next: 4 },
-        { text: "Enthusiast & Niche Builds", next: 3 },
-        { text: "Streaming", next: 3 },
+        { text: "Budget PC Builds", next: 2 },
+        { text: "Gaming PC Builds", next: 3 },
+        { text: "Workstation PC Builds", next: 4 },
+        { text: "Professional & Enterprise", next: 5 },
+        { text: "Enthusiast & Niche Builds", next: 6 },
       ],
     },
     {
       id: 2,
-      text: "Gaming type?",
+      text: "Budget PC Builds?",
       options: [
-        { text: "Entry-Level Gaming", next: 4 },
-        { text: "Mid-Range Gaming", next: 4 },
-        { text: "High-End Gaming", next: 4 },
-        { text: "Competitive eSports", next: 4 },
-        { text: "VR-Ready Gaming", next: 4 },
-        { text: "Streaming & Gaming Hybrid", next: 4 },
+        { text: "Student PC", next: 7 },
+        { text: "Office Workstation", next: 8 },
+        { text: "Casual Home PC", next: 9 },
+        { text: "Low-Cost Gaming PC", next: 10 },
       ],
     },
     {
       id: 3,
-      text: "Work type?",
+      text: "Gaming PC Builds?",
       options: [
-        { text: "Video Editing Workstation", next: 4 },
-        { text: "3D Rendering & Animation", next: 4 },
-        { text: "CAD & Engineering ", next: 4 },
-        { text: "Music Production", next: 4 },
-        { text: "AI & Machine Learning", next: 4 },
-        { text: "Software Development", next: 4 },
-      ],
-    },
-    {
-      id: 1,
-      text: "Budget?",
-      options: [
-        { text: "₹10,100 - ₹30,000 (Student PC)", next: 2 },
-        { text: "₹30,000 - ₹35,000 (Student PC - Mid-Range)", next: 2 },
-        { text: "₹35,000+ (Student PC - High-End)", next: 2 }
-      ]
-    },
-    {
-      id: 2,
-      text: "Budget?",
-      options: [
-        { text: "₹36,000 - ₹40,000 (Office Workstation)", next: 3 },
-        { text: "₹40,000 - ₹45,000 (Office Workstation - Mid-Range)", next: 3 },
-        { text: "₹45,000+ (Office Workstation - High-End)", next: 3 }
-      ]
-    },
-    {
-      id: 3,
-      text: "Budget?",
-      options: [
-        { text: "₹32,000 - ₹38,000 (Casual Home PC)", next: 4 },
-        { text: "₹38,000 - ₹45,000 (Casual Home PC - Mid-Range)", next: 4 },
-        { text: "₹45,000+ (Casual Home PC - High-End)", next: 4 }
-      ]
-    },
-    {
-      id: 4,
-      text: "Budget?",
-      options: [
-        { text: "₹46,500 - ₹49,000 (Low-Cost Gaming PC)", next: 5 },
-        { text: "₹49,000 - ₹55,000 (Low-Cost Gaming PC - Mid-Range)", next: 5 },
-        { text: "₹55,000+ (Low-Cost Gaming PC - High-End)", next: 5 }
-      ]
-    },
-    {
-      id: 5,
-      text: "Budget?",
-      options: [
-        { text: "₹55,000 - ₹65,000 (Entry-Level Gaming PC)", next: 6 },
-        { text: "₹65,000 - ₹70,000 (Entry-Level Gaming PC - Mid-Range)", next: 6 },
-        { text: "₹70,000+ (Entry-Level Gaming PC - High-End)", next: 6 }
-      ]
-    }
-    {
-      id: 8,
-      text: "budget?",
-      options: [
-        { text: "", next: 4 },
-        { text: "", next: 4 },
-        { text: "", next: 4 },
+        { text: "Entry-Level Gaming PC", next: 11 },
+        { text: "Mid-Range Gaming PC", next: 12 },
+        { text: "High-End Gaming PC", next: 13 },
+        { text: "Competitive eSports PC", next: 14 },
+        { text: "Streaming & Gaming Hybrid PC", next: 15 },
       ],
     },
     {
       id: 4,
-      text: "Thank you! We'll recommend a PC.",
-      options: [],
+      text: "Workstation PC Builds?",
+      options: [
+        { text: "Video Editing Workstation", next: 16 },
+        { text: "3D Rendering & Animation", next: 17 },
+        { text: "CAD & Engineering", next: 18 },
+        { text: "Music Production", next: 19 },
+        { text: "AI & Machine Learning", next: 20 },
+        { text: "Software Development", next: 21 },
+      ],
     },
     {
       id: 5,
-      text: "Specialized Setup?",
+      text: "Professional & Enterprise Use?",
       options: [
-        { text: "Overclocking Enthusiast", next: 7 },
-        { text: "Silent PC Build", next: 7 },
-        { text: "Mini ITX Compact PC", next: 7 },
-        { text: "Modding & Custom Water Cooling Build", next: 7 },
-        { text: "Energy-Efficient PC", next: 7 },
+        { text: "Business Workstation", next: 22 },
+        { text: "Financial Trading PC", next: 23 },
+        { text: "Server & Home Lab PC", next: 24 },
+        { text: "Medical & Scientific Computing PC", next: 25 },
       ],
     },
     {
       id: 6,
-      text: "PC for Specialized Tasks?",
+      text: "Enthusiast & Niche Builds?",
       options: [
-        { text: "Business Workstation", next: 7 },
-        { text: "Financial Trading", next: 7 },
-        { text: "Server & Home Lab PC", next: 7 },
-        { text: "Medical & Scientific Computing PC", next: 7 },
+        { text: "Mini ITX Compact PC", next: 26 },
+        { text: "Energy-Efficient PC", next: 27 },
       ],
     },
+    // Budget questions
     {
       id: 7,
       text: "Budget?",
       options: [
-        { text: "₹130,000 - ₹250,000 (High-End Gaming PC)", next: 8 },
-        { text: "₹250,000 - ₹400,000 (High-End Gaming PC - Mid-Range)", next: 8 },
-        { text: "₹400,000+ (High-End Gaming PC - High-End)", next: 8 }
-      ]
+        { text: "₹10,100 - ₹30,000", next: 33 },
+        { text: "₹30,000 - ₹35,000", next: 33 },
+        // { text: "₹35,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 10100 },
+      ],
     },
     {
       id: 8,
       text: "Budget?",
       options: [
-        { text: "₹85,000 - ₹250,000 (Competitive eSports PC)", next: 9 },
-        { text: "₹250,000 - ₹380,000 (Competitive eSports PC - Mid-Range)", next: 9 },
-        { text: "₹380,000+ (Competitive eSports PC - High-End)", next: 9 }
-      ]
+        { text: "₹36,000 - ₹40,000", next: 33 },
+        { text: "₹40,000 - ₹45,000", next: 33 },
+        // { text: "₹45,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 36000 },
+      ],
     },
     {
       id: 9,
       text: "Budget?",
       options: [
-        { text: "₹95,000 - ₹250,000 (VR-Ready Gaming PC)", next: 10 },
-        { text: "₹250,000 - ₹400,000 (VR-Ready Gaming PC - Mid-Range)", next: 10 },
-        { text: "₹400,000+ (VR-Ready Gaming PC - High-End)", next: 10 }
-      ]
+        { text: "₹32,000 - ₹38,000", next: 33 },
+        { text: "₹38,000 - ₹45,000", next: 33 },
+        // { text: "₹45,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 32000 },
+      ],
     },
     {
       id: 10,
       text: "Budget?",
       options: [
-        { text: "₹180,000 - ₹250,000 (Streaming PC)", next: 11 },
-        { text: "₹250,000 - ₹400,000 (Streaming PC - Mid-Range)", next: 11 },
-        { text: "₹400,000+ (Streaming PC - High-End)", next: 11 }
-      ]
+        { text: "₹46,500 - ₹49,000", next: 33 },
+        { text: "₹49,000 - ₹55,000", next: 33 },
+        // { text: "₹55,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 46500 },
+      ],
     },
     {
       id: 11,
       text: "Budget?",
       options: [
-        { text: "₹125,000 - ₹350,000 (Streaming & Gaming Hybrid PC)", next: 12 },
-        { text: "₹350,000 - ₹450,000 (Streaming & Gaming Hybrid PC - Mid-Range)", next: 12 },
-        { text: "₹450,000+ (Streaming & Gaming Hybrid PC - High-End)", next: 12 }
-      ]
+        { text: "₹55,000 - ₹65,000", next: 33 },
+        { text: "₹65,000 - ₹70,000", next: 33 },
+        // { text: "₹70,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 55000 },
+      ],
     },
     {
       id: 12,
       text: "Budget?",
       options: [
-        { text: "₹110,000 - ₹200,000 (Mini ITX Compact PC)", next: 13 },
-        { text: "₹200,000 - ₹240,000 (Mini ITX Compact PC - Mid-Range)", next: 13 },
-        { text: "₹240,000+ (Mini ITX Compact PC - High-End)", next: 13 }
-      ]
+        { text: "₹75,000 - ₹100,000", next: 33 },
+        { text: "₹100,000 - ₹120,000", next: 33 },
+        // { text: "₹120,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 75000 },
+      ],
     },
     {
       id: 13,
       text: "Budget?",
       options: [
-        { text: "₹80,000 - ₹250,000 (Silent PC Build)", next: 14 },
-        { text: "₹250,000 - ₹300,000 (Silent PC Build - Mid-Range)", next: 14 },
-        { text: "₹300,000+ (Silent PC Build - High-End)", next: 14 }
-      ]
+        { text: "₹130,000 - ₹250,000", next: 33 },
+        { text: "₹250,000 - ₹400,000", next: 33 },
+        // { text: "₹400,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 130000 },
+      ],
     },
     {
       id: 14,
       text: "Budget?",
       options: [
-        { text: "₹250,000 - ₹400,000 (Overclocking Enthusiast PC)", next: 15 },
-        { text: "₹400,000 - ₹550,000 (Overclocking Enthusiast PC - Mid-Range)", next: 15 },
-        { text: "₹550,000+ (Overclocking Enthusiast PC - High-End)", next: 15 }
-      ]
+        { text: "₹85,000 - ₹250,000", next: 33 },
+        { text: "₹250,000 - ₹380,000", next: 33 },
+        // { text: "₹380,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 85000 },
+      ],
     },
     {
       id: 15,
       text: "Budget?",
       options: [
-        { text: "₹300,000 - ₹400,000 (Modding & Custom Water Cooling Build)", next: 16 },
-        { text: "₹400,000 - ₹600,000 (Modding & Custom Water Cooling Build - Mid-Range)", next: 16 },
-        { text: "₹600,000+ (Modding & Custom Water Cooling Build - High-End)", next: 16 }
-      ]
+        { text: "₹180,000 - ₹250,000", next: 33 },
+        { text: "₹250,000 - ₹400,000", next: 33 },
+        // { text: "₹400,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 180000 },
+      ],
     },
     {
       id: 16,
       text: "Budget?",
       options: [
-        { text: "₹350,000 - ₹750,000 (Workstation Build)", next: 17 },
-        { text: "₹750,000 - ₹950,000 (Workstation Build - Mid-Range)", next: 17 },
-        { text: "₹950,000+ (Workstation Build - High-End)", next: 17 }
-      ]
+        { text: "₹110,000 - ₹200,000", next: 33 },
+        { text: "₹200,000 - ₹240,000", next: 33 },
+        // { text: "₹240,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 110000 },
+      ],
     },
     {
       id: 17,
       text: "Budget?",
       options: [
-        { text: "₹65,000 - ₹120,000 (Business Workstation)", next: 18 },
-        { text: "₹120,000 - ₹200,000 (Business Workstation - Mid-Range)", next: 18 },
-        { text: "₹200,000+ (Business Workstation - High-End)", next: 18 }
-      ]
+        { text: "₹300,000 - ₹400,000", next: 33 },
+        { text: "₹400,000 - ₹600,000", next: 33 },
+        // { text: "₹600,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 300000 },
+      ],
     },
     {
       id: 18,
       text: "Budget?",
       options: [
-        { text: "₹110,000 - ₹280,000 (Financial Trading PC)", next: 19 },
-        { text: "₹280,000 - ₹420,000 (Financial Trading PC - Mid-Range)", next: 19 },
-        { text: "₹420,000+ (Financial Trading PC - High-End)", next: 19 }
-      ]
+        { text: "₹350,000 - ₹750,000", next: 33 },
+        { text: "₹750,000 - ₹950,000", next: 33 },
+        // { text: "₹950,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 350000 },
+      ],
     },
     {
       id: 19,
       text: "Budget?",
       options: [
-        { text: "₹100,000 - ₹240,000 (Server & Home Lab PC)", next: 20 },
-        { text: "₹240,000 - ₹500,000 (Server & Home Lab PC - Mid-Range)", next: 20 },
-        { text: "₹500,000+ (Server & Home Lab PC - High-End)", next: 20 }
-      ]
+        { text: "₹65,000 - ₹120,000", next: 33 },
+        { text: "₹120,000 - ₹200,000", next: 33 },
+        // { text: "₹200,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 65000 },
+      ],
     },
     {
       id: 20,
       text: "Budget?",
       options: [
-        { text: "₹120,000 - ₹260,000 (Medical & Scientific Computing PC)", next: 21 },
-        { text: "₹260,000 - ₹500,000 (Medical & Scientific Computing PC - Mid-Range)", next: 21 },
-        { text: "₹500,000+ (Medical & Scientific Computing PC - High-End)", next: 21 }
-      ]
+        { text: "₹110,000 - ₹280,000", next: 33 },
+        { text: "₹280,000 - ₹420,000", next: 33 },
+        // { text: "₹420,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 110000 },
+      ],
     },
     {
       id: 21,
       text: "Budget?",
       options: [
-        { text: "₹560,000 - ₹700,000 (Video Editing Workstation)", next: 22 },
-        { text: "₹700,000 - ₹900,000 (Video Editing Workstation - Mid-Range)", next: 22 },
-        { text: "₹900,000+ (Video Editing Workstation - High-End)", next: 22 }
-      ]
+        { text: "₹100,000 - ₹240,000", next: 33 },
+        { text: "₹240,000 - ₹500,000", next: 33 },
+        // { text: "₹500,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 100000 },
+      ],
     },
     {
       id: 22,
       text: "Budget?",
       options: [
-        { text: "₹600,000 - ₹1,000,000 (3D Rendering & Animation PC)", next: 23 },
-        { text: "₹1,000,000 - ₹1,400,000 (3D Rendering & Animation PC - Mid-Range)", next: 23 },
-        { text: "₹1,400,000+ (3D Rendering & Animation PC - High-End)", next: 23 }
-      ]
+        { text: "₹120,000 - ₹260,000", next: 33 },
+        { text: "₹260,000 - ₹500,000", next: 33 },
+        // { text: "₹500,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 120000 },
+      ],
     },
     {
       id: 23,
       text: "Budget?",
       options: [
-        { text: "₹580,000 - ₹880,000 (CAD & Engineering Workstation)", next: 24 },
-        { text: "₹880,000 - ₹1,300,000 (CAD & Engineering Workstation - Mid-Range)", next: 24 },
-        { text: "₹1,300,000+ (CAD & Engineering Workstation - High-End)", next: 24 }
-      ]
+        { text: "₹560,000 - ₹700,000", next: 33 },
+        { text: "₹700,000 - ₹900,000", next: 33 },
+        // { text: "₹900,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 560000 },
+      ],
     },
     {
       id: 24,
       text: "Budget?",
       options: [
-        { text: "₹180,000 - ₹320,000 (Music Production Workstation)", next: 25 },
-        { text: "₹320,000 - ₹450,000 (Music Production Workstation - Mid-Range)", next: 25 },
-        { text: "₹450,000+ (Music Production Workstation - High-End)", next: 25 }
-      ]
+        { text: "₹600,000 - ₹1,000,000", next: 33 },
+        { text: "₹1,000,000 - ₹1,400,000", next: 33 },
+        // { text: "₹1,400,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 600000 },
+      ],
     },
     {
       id: 25,
       text: "Budget?",
       options: [
-        { text: "₹1,600,000 - ₹1,800,000 (AI & Machine Learning Workstation)", next: 26 },
-        { text: "₹1,800,000 - ₹2,000,000 (AI & Machine Learning Workstation - Mid-Range)", next: 26 },
-        { text: "₹2,000,000+ (AI & Machine Learning Workstation - High-End)", next: 26 }
-      ]
+        { text: "₹580,000 - ₹880,000", next: 33 },
+        { text: "₹880,000 - ₹1,300,000", next: 33 },
+        // { text: "₹1,300,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 580000 },
+      ],
     },
     {
       id: 26,
       text: "Budget?",
       options: [
-        { text: "₹400,000 - ₹580,000 (Software Development Workstation)", next: null },
-        { text: "₹580,000 - ₹600,000 (Software Development Workstation - Mid-Range)", next: null },
-        { text: "₹600,000+ (Software Development Workstation - High-End)", next: null }
-      ]
-    }
+        { text: "₹180,000 - ₹320,000", next: 33 },
+        { text: "₹320,000 - ₹450,000", next: 33 },
+        // { text: "₹450,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 180000 },
+      ],
+    },
+    {
+      id: 27,
+      text: "Budget?",
+      options: [
+        { text: "₹1,600,000 - ₹1,800,000", next: 33 },
+        { text: "₹1,800,000 - ₹2,000,000", next: 33 },
+        // { text: "₹2,000,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 1600000 },
+      ],
+    },
+    {
+      id: 28,
+      text: "Budget?",
+      options: [
+        { text: "₹400,000 - ₹580,000", next: 33 },
+        { text: "₹580,000 - ₹600,000", next: 33 },
+        // { text: "₹600,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 400000 },
+      ],
+    },
+    {
+      id: 29,
+      text: "Budget?",
+      options: [
+        { text: "₹110,000 - ₹200,000", next: 33 },
+        { text: "₹200,000 - ₹240,000", next: 33 },
+        // { text: "₹240,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 110000 },
+      ],
+    },
+    {
+      id: 30,
+      text: "Budget?",
+      options: [
+        { text: "₹50,000 - ₹100,000", next: 33 },
+        { text: "₹100,000 - ₹150,000", next: 33 },
+        // { text: "₹150,000+", next: 33 },
+        { text: "Custom", next: "custom", min: 50000 },
+      ],
+    },
+    {
+      id: 33,
+      text: "Thank you! We'll recommend a PC.",
+      options: [],
+    },
+    {
+      id: "custom",
+      text: "Enter your custom budget:",
+      options: [],
+    },
   ];
+
+  // Initialize state hooks
 
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [answers, setAnswers] = useState([]);
   const [recommendation, setRecommendation] = useState(null);
   const [error, setError] = useState(null);
+  const [customBudget, setCustomBudget] = useState("");
+  const [showCustomInput, setShowCustomInput] = useState(false);
+  const [minBudget, setMinBudget] = useState(0);
 
   const handleOptionClick = (option) => {
-    const updatedAnswers = [
-      ...answers,
-      { questionId: currentQuestion, answer: option.text },
-    ];
-    setAnswers(updatedAnswers);
-    setCurrentQuestion(option.next || 7);
-  };
-
-  const handlePrevious = () => {
-    if (answers.length > 0) {
-      const previousAnswers = [...answers];
-      previousAnswers.pop();
-      setAnswers(previousAnswers);
-      setCurrentQuestion(
-        previousAnswers.length > 0
-          ? previousAnswers[previousAnswers.length - 1].questionId
-          : 1
-      );
+    if (option.next === "custom") {
+      const min = questions
+        .find((q) => q.id === currentQuestion)
+        .options.find((opt) => opt.next === "custom").min;
+      setMinBudget(min);
+      setShowCustomInput(true);
+    } else {
+      const updatedAnswers = [
+        ...answers,
+        { questionId: currentQuestion, answer: option.text },
+      ];
+      setAnswers(updatedAnswers);
+      setCurrentQuestion(option.next || 33);
     }
   };
 
+  const handleCustomBudgetChange = (event) => {
+    setCustomBudget(event.target.value);
+  };
+
+  const handleCustomBudgetSubmit = (event) => {
+    if (event.key === "Enter") {
+      const inputBudget = parseFloat(customBudget);
+      if (inputBudget >= minBudget) {
+        setAnswers([
+          ...answers,
+          { questionId: currentQuestion, answer: `Custom: ₹${inputBudget}` },
+        ]);
+        setCurrentQuestion(33);
+        setShowCustomInput(false);
+        setCustomBudget("");
+      } else {
+        alert(`Budget should be at least ₹${minBudget}`);
+      }
+    }
+  };
+
+  // Reset the survey to its initial state
+  const handleReset = () => {
+    setCurrentQuestion(1); // Reset to the first question
+    setAnswers([]); // Clear all answers
+    setRecommendation(null); // Clear any previous recommendations
+    setError(null); // Clear any previous errors
+    setCustomBudget(""); // Clear the custom budget input
+    setShowCustomInput(false); // Hide the custom budget input field
+    setMinBudget(0); // Reset the minimum budget
+  };
+
+  // Submit the answers and fetch the recommendation from the server
   const handleSubmit = async () => {
     try {
+      // Send a POST request to the server with the answers
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/recommend/",
+        "http://127.0.0.1:8000/api/recommend_build/",
         { answers }
       );
-      setRecommendation(response.data);
+      setRecommendation(response.data); // Set the recommendation data
       setError(null); // Clear any previous errors
     } catch (err) {
-      console.error("Error fetching recommendation:", err);
+      console.error("Error fetching recommendation:", err); // Log the error
+      // Set the error message
       setError(
         err.response?.data?.error ||
           "An unexpected error occurred. Please try again."
@@ -367,22 +476,34 @@ export default function UserPreferences() {
                 <button
                   id="options"
                   key={index}
-                  className="w-75 h-15 text-xl font-bold rounded-4xl hover:bg-red-800/90 transition"
+                  className="w-75 h-15 text-xl font-bold rounded-4xl px-5 transition"
                   onClick={() => handleOptionClick(option)}
                 >
                   {option.text}
                 </button>
               ))}
             </div>
+            {showCustomInput && (
+              <div className="mt-4">
+                <input
+                  type="number"
+                  value={customBudget}
+                  onChange={handleCustomBudgetChange}
+                  onKeyPress={handleCustomBudgetSubmit}
+                  className="p-2 border w-75 h-15 border-gray-300 rounded-lg"
+                  placeholder={`Enter your custom budget (minimum ₹${minBudget})`}
+                />
+              </div>
+            )}
             {currentQuestion > 1 && (
               <div className="flex space-x-4 mt-6">
                 <button
                   className="px-6 py-2 bg-gray-600 rounded-lg hover:bg-gray-700 transition"
-                  onClick={handlePrevious}
+                  onClick={handleReset}
                 >
-                  Previous
+                  Reset
                 </button>
-                {currentQuestion === 7 && (
+                {currentQuestion === 33 && (
                   <button
                     className="px-6 py-2 bg-green-600 rounded-lg hover:bg-green-700 transition"
                     onClick={handleSubmit}
@@ -393,40 +514,44 @@ export default function UserPreferences() {
               </div>
             )}
             {error && (
-              <div className="mt-6 p-4 bg-red-600 text-white rounded-xl">
+              <div className="mt-6 p-4 bg-gray-800 text-white rounded-xl">
                 <h3 className="text-xl font-bold">Error:</h3>
                 <p>{error}</p>
               </div>
             )}
             {recommendation && (
-              <div className="mt-10 p-6 bg-gray-800 rounded-xl">
+              <div className="mt-10 p-6 bg-gray-800 rounded-xl text-left">
                 <h3 className="text-2xl font-bold">Recommended PC Build:</h3>
-                <p>
-                  CPU: {recommendation.cpu.name} (₹{recommendation.cpu.price})
-                </p>
-                <p>
-                  GPU: {recommendation.gpu.name} (₹{recommendation.gpu.price})
-                </p>
-                <p>
-                  RAM: {recommendation.ram.name} ({recommendation.ram.capacity}
-                  GB, ₹{recommendation.ram.price})
-                </p>
-                <p>
-                  Storage: {recommendation.storage.name} (
-                  {recommendation.storage.capacity}GB, ₹
-                  {recommendation.storage.price})
-                </p>
-                <p>
-                  Motherboard: {recommendation.motherboard.name} (₹
-                  {recommendation.motherboard.price})
-                </p>
-                <p>
-                  PSU: {recommendation.psu.name} ({recommendation.psu.wattage}W,
-                  ₹{recommendation.psu.price})
-                </p>
-                <p className="text-xl font-bold mt-4">
-                  Total Cost: ₹{recommendation.total_cost}
-                </p>
+                <div className="build-component">
+                  <p>
+                    <strong>CPU :</strong> {recommendation.cpu}
+                  </p>
+                </div>
+                <div className="build-component">
+                  <p>
+                    <strong>GPU :</strong> {recommendation.gpu}
+                  </p>
+                </div>
+                <div className="build-component">
+                  <p>
+                    <strong>RAM :</strong> {recommendation.ram}
+                  </p>
+                </div>
+                <div className="build-component">
+                  <p>
+                    <strong>Storage :</strong> {recommendation.storage}
+                  </p>
+                </div>
+                <div className="build-component">
+                  <p>
+                    <strong>PSU :</strong> {recommendation.psu}
+                  </p>
+                </div>
+                <div className="total-cost mt-4 text-xl font-bold">
+                  <p>
+                    <strong>Total Cost :</strong> ₹{recommendation.total_cost}
+                  </p>
+                </div>
               </div>
             )}
           </div>

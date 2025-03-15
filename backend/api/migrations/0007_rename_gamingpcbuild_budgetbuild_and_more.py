@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         ),
         migrations.RenameModel(
             old_name='WorkstationPCBuild',
-            new_name='gamingbuilds',
+            new_name='gamingbuildss',
         ),
         migrations.RenameModel(
             old_name='BudgetPCBuild',
@@ -39,8 +39,8 @@ class Migration(migrations.Migration):
             table='enthusiast',
         ),
         migrations.AlterModelTable(
-            name='gamingbuilds',
-            table='gamingbuilds',
+            name='gamingbuildss',
+            table='gamingbuildss',
         ),
         migrations.AlterModelTable(
             name='professional',

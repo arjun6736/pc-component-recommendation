@@ -1,5 +1,16 @@
 import Navbar from "./Navbar";
 
+/**
+ * Hero2 component renders the hero section of the webpage.
+ * It includes a background overlay, a navbar, and content with a heading,
+ * a description, a call-to-action button, and an image.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Hero2 />
+ * )
+ */
 function Hero2() {
   return (
     <section
@@ -10,7 +21,10 @@ function Hero2() {
       <div className="absolute inset-0">
         <div
           className="w-full h-full bg-cover bg-center"
-          style={{ backgroundImage: "url('/grandient.png')" }}
+          style={{
+            // backgroundImage: "url('/grandient.png')",
+            background: "linear-gradient(135deg, #07051B, #8C3685)",
+          }}
         ></div>
       </div>
 
@@ -40,7 +54,7 @@ function Hero2() {
         </div>
 
         {/* Right-Aligned Image */}
-        <div className="flex justify-center items-cente mr-30 mt-30 rounded-lg">
+        <div className="flex justify-center items-cente mr-30 mt-30 rounded-lg ">
           <img
             src="/pctower.png"
             alt="PC Tower"

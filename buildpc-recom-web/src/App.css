@@ -1,0 +1,16 @@
+html {
+  scroll-behavior: smooth; /* Smooth scrolling */
+}
+
+.snap-container {
+  scroll-snap-type: y mandatory; /* Snap scrolling */
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  height: 100vh;
+  position: relative;
+  transition: background-image 1s ease-in-out; /* Smooth transition for background image */
+}

@@ -1,14 +1,31 @@
 import { useState, useEffect } from "react";
 
+/**
+ * Navbar component that displays a fixed navigation bar at the top of the page.
+ * The navbar changes its style when the user scrolls down the page.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Navbar />
+ * )
+ *
+ * @returns {JSX.Element} The rendered Navbar component.
+ */
 const Navbar = () => {
+  // State to track if the user has scrolled down the page
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
+    // Function to handle scroll event
     const handleScroll = () => {
+      // Set isScrolled to true if the user has scrolled more than 50 pixels
       setIsScrolled(window.scrollY > 50);
     };
 
+    // Add scroll event listener to the window
     window.addEventListener("scroll", handleScroll);
+    // Cleanup function to remove the event listener
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -16,8 +33,8 @@ const Navbar = () => {
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-gray-900 bg-opacity-80 py-4 shadow-lg"
-          : "bg-transparent py-4"
+          ? "bg-gray-900 bg-opacity-80 py-4 shadow-lg" // Navbar style when scrolled
+          : "bg-transparent py-4" // Navbar style when not scrolled
       }`}
     >
       <div className="flex items-center justify-between mx-10">
