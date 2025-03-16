@@ -37,6 +37,7 @@ class GPU(models.Model):
     interface = models.IntegerField(db_column='Interface', blank=True, null=True)  # Field name made lowercase.
     price_inr = models.IntegerField(db_column='Price_INR')  # Field name made lowercase.
     rating = models.FloatField(db_column='Rating')  # Field name made lowercase.
+    tdp_watts = models.IntegerField(db_column='TDP_Watts', blank=True, null=True)  # New field for TDP
 
     class Meta:
         managed = False
@@ -257,6 +258,7 @@ class professional(models.Model):
     storage = models.CharField(max_length=100)
     psu = models.CharField(max_length=100)
     price_inr = models.DecimalField(max_digits=10, decimal_places=2)
+    motherboard = models.CharField(max_length=100,null=True, blank=True)
     class Meta:
         db_table = "professional"
     def __str__(self):
@@ -272,6 +274,7 @@ class enthusiast(models.Model):
     storage = models.CharField(max_length=100)
     psu = models.CharField(max_length=100)
     price_inr = models.DecimalField(max_digits=10, decimal_places=2)
+    motherboard = models.CharField(max_length=100,null=True, blank=True)
     class Meta:
         db_table = "enthusiast"
     def __str__(self):
@@ -287,6 +290,7 @@ class gamingbuilds(models.Model):
     storage = models.CharField(max_length=100)
     psu = models.CharField(max_length=100)
     price_inr = models.DecimalField(max_digits=10, decimal_places=2)
+    motherboard = models.CharField(max_length=100,null=True, blank=True)
     class Meta:
         db_table = "gamingbuilds"
     def __str__(self):
@@ -302,6 +306,7 @@ class budgetbuild(models.Model):
     storage = models.CharField(max_length=100)
     psu = models.CharField(max_length=100)
     price_inr = models.DecimalField(max_digits=10, decimal_places=2)
+    motherboard = models.CharField(max_length=100,null=True, blank=True)
     class Meta:
         db_table = "budgetbuild"
     def __str__(self):
@@ -318,6 +323,7 @@ class workstations(models.Model):
     psu = models.CharField(max_length=100)
     # cabinet = models.CharField(max_length=100)
     price_inr = models.DecimalField(max_digits=10, decimal_places=2)
+    motherboard = models.CharField(max_length=100,null=True, blank=True)
     class Meta:
         db_table = "workstations"
     def __str__(self):

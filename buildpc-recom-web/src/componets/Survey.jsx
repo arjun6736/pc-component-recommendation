@@ -129,7 +129,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹10,100 - ₹30,000", next: 33 },
         { text: "₹30,000 - ₹35,000", next: 33 },
-        // { text: "₹35,000+", next: 33 },
         { text: "Custom", next: "custom", min: 10100 },
       ],
     },
@@ -139,7 +138,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹36,000 - ₹40,000", next: 33 },
         { text: "₹40,000 - ₹45,000", next: 33 },
-        // { text: "₹45,000+", next: 33 },
         { text: "Custom", next: "custom", min: 36000 },
       ],
     },
@@ -149,7 +147,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹32,000 - ₹38,000", next: 33 },
         { text: "₹38,000 - ₹45,000", next: 33 },
-        // { text: "₹45,000+", next: 33 },
         { text: "Custom", next: "custom", min: 32000 },
       ],
     },
@@ -159,7 +156,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹46,500 - ₹49,000", next: 33 },
         { text: "₹49,000 - ₹55,000", next: 33 },
-        // { text: "₹55,000+", next: 33 },
         { text: "Custom", next: "custom", min: 46500 },
       ],
     },
@@ -169,7 +165,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹55,000 - ₹65,000", next: 33 },
         { text: "₹65,000 - ₹70,000", next: 33 },
-        // { text: "₹70,000+", next: 33 },
         { text: "Custom", next: "custom", min: 55000 },
       ],
     },
@@ -179,7 +174,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹75,000 - ₹100,000", next: 33 },
         { text: "₹100,000 - ₹120,000", next: 33 },
-        // { text: "₹120,000+", next: 33 },
         { text: "Custom", next: "custom", min: 75000 },
       ],
     },
@@ -189,7 +183,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹130,000 - ₹250,000", next: 33 },
         { text: "₹250,000 - ₹400,000", next: 33 },
-        // { text: "₹400,000+", next: 33 },
         { text: "Custom", next: "custom", min: 130000 },
       ],
     },
@@ -199,7 +192,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹85,000 - ₹250,000", next: 33 },
         { text: "₹250,000 - ₹380,000", next: 33 },
-        // { text: "₹380,000+", next: 33 },
         { text: "Custom", next: "custom", min: 85000 },
       ],
     },
@@ -209,7 +201,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹180,000 - ₹250,000", next: 33 },
         { text: "₹250,000 - ₹400,000", next: 33 },
-        // { text: "₹400,000+", next: 33 },
         { text: "Custom", next: "custom", min: 180000 },
       ],
     },
@@ -219,7 +210,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹110,000 - ₹200,000", next: 33 },
         { text: "₹200,000 - ₹240,000", next: 33 },
-        // { text: "₹240,000+", next: 33 },
         { text: "Custom", next: "custom", min: 110000 },
       ],
     },
@@ -229,7 +219,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹300,000 - ₹400,000", next: 33 },
         { text: "₹400,000 - ₹600,000", next: 33 },
-        // { text: "₹600,000+", next: 33 },
         { text: "Custom", next: "custom", min: 300000 },
       ],
     },
@@ -239,7 +228,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹350,000 - ₹750,000", next: 33 },
         { text: "₹750,000 - ₹950,000", next: 33 },
-        // { text: "₹950,000+", next: 33 },
         { text: "Custom", next: "custom", min: 350000 },
       ],
     },
@@ -249,7 +237,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹65,000 - ₹120,000", next: 33 },
         { text: "₹120,000 - ₹200,000", next: 33 },
-        // { text: "₹200,000+", next: 33 },
         { text: "Custom", next: "custom", min: 65000 },
       ],
     },
@@ -259,7 +246,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹110,000 - ₹280,000", next: 33 },
         { text: "₹280,000 - ₹420,000", next: 33 },
-        // { text: "₹420,000+", next: 33 },
         { text: "Custom", next: "custom", min: 110000 },
       ],
     },
@@ -269,7 +255,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹100,000 - ₹240,000", next: 33 },
         { text: "₹240,000 - ₹500,000", next: 33 },
-        // { text: "₹500,000+", next: 33 },
         { text: "Custom", next: "custom", min: 100000 },
       ],
     },
@@ -279,7 +264,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹120,000 - ₹260,000", next: 33 },
         { text: "₹260,000 - ₹500,000", next: 33 },
-        // { text: "₹500,000+", next: 33 },
         { text: "Custom", next: "custom", min: 120000 },
       ],
     },
@@ -289,7 +273,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹560,000 - ₹700,000", next: 33 },
         { text: "₹700,000 - ₹900,000", next: 33 },
-        // { text: "₹900,000+", next: 33 },
         { text: "Custom", next: "custom", min: 560000 },
       ],
     },
@@ -299,7 +282,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹600,000 - ₹1,000,000", next: 33 },
         { text: "₹1,000,000 - ₹1,400,000", next: 33 },
-        // { text: "₹1,400,000+", next: 33 },
         { text: "Custom", next: "custom", min: 600000 },
       ],
     },
@@ -309,7 +291,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹580,000 - ₹880,000", next: 33 },
         { text: "₹880,000 - ₹1,300,000", next: 33 },
-        // { text: "₹1,300,000+", next: 33 },
         { text: "Custom", next: "custom", min: 580000 },
       ],
     },
@@ -319,7 +300,6 @@ export default function UserPreferences() {
       options: [
         { text: "₹180,000 - ₹320,000", next: 33 },
         { text: "₹320,000 - ₹450,000", next: 33 },
-        // { text: "₹450,000+", next: 33 },
         { text: "Custom", next: "custom", min: 180000 },
       ],
     },
@@ -329,38 +309,7 @@ export default function UserPreferences() {
       options: [
         { text: "₹1,600,000 - ₹1,800,000", next: 33 },
         { text: "₹1,800,000 - ₹2,000,000", next: 33 },
-        // { text: "₹2,000,000+", next: 33 },
         { text: "Custom", next: "custom", min: 1600000 },
-      ],
-    },
-    {
-      id: 28,
-      text: "Budget?",
-      options: [
-        { text: "₹400,000 - ₹580,000", next: 33 },
-        { text: "₹580,000 - ₹600,000", next: 33 },
-        // { text: "₹600,000+", next: 33 },
-        { text: "Custom", next: "custom", min: 400000 },
-      ],
-    },
-    {
-      id: 29,
-      text: "Budget?",
-      options: [
-        { text: "₹110,000 - ₹200,000", next: 33 },
-        { text: "₹200,000 - ₹240,000", next: 33 },
-        // { text: "₹240,000+", next: 33 },
-        { text: "Custom", next: "custom", min: 110000 },
-      ],
-    },
-    {
-      id: 30,
-      text: "Budget?",
-      options: [
-        { text: "₹50,000 - ₹100,000", next: 33 },
-        { text: "₹100,000 - ₹150,000", next: 33 },
-        // { text: "₹150,000+", next: 33 },
-        { text: "Custom", next: "custom", min: 50000 },
       ],
     },
     {
@@ -376,7 +325,6 @@ export default function UserPreferences() {
   ];
 
   // Initialize state hooks
-
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [answers, setAnswers] = useState([]);
   const [recommendation, setRecommendation] = useState(null);
@@ -425,33 +373,31 @@ export default function UserPreferences() {
 
   // Reset the survey to its initial state
   const handleReset = () => {
-    setCurrentQuestion(1); // Reset to the first question
-    setAnswers([]); // Clear all answers
-    setRecommendation(null); // Clear any previous recommendations
-    setError(null); // Clear any previous errors
-    setCustomBudget(""); // Clear the custom budget input
-    setShowCustomInput(false); // Hide the custom budget input field
-    setMinBudget(0); // Reset the minimum budget
+    setCurrentQuestion(1);
+    setAnswers([]);
+    setRecommendation(null);
+    setError(null);
+    setCustomBudget("");
+    setShowCustomInput(false);
+    setMinBudget(0);
   };
 
   // Submit the answers and fetch the recommendation from the server
   const handleSubmit = async () => {
     try {
-      // Send a POST request to the server with the answers
       const response = await axios.post(
         "http://127.0.0.1:8000/api/recommend_build/",
         { answers }
       );
-      setRecommendation(response.data); // Set the recommendation data
-      setError(null); // Clear any previous errors
+      setRecommendation(response.data);
+      setError(null);
     } catch (err) {
-      console.error("Error fetching recommendation:", err); // Log the error
-      // Set the error message
+      console.error("Error fetching recommendation:", err);
       setError(
         err.response?.data?.error ||
           "An unexpected error occurred. Please try again."
       );
-      setRecommendation(null); // Clear previous recommendations
+      setRecommendation(null);
     }
   };
 
@@ -524,32 +470,37 @@ export default function UserPreferences() {
                 <h3 className="text-2xl font-bold">Recommended PC Build:</h3>
                 <div className="build-component">
                   <p>
-                    <strong>CPU :</strong> {recommendation.cpu}
+                    <strong>CPU:</strong> {recommendation.cpu}
                   </p>
                 </div>
                 <div className="build-component">
                   <p>
-                    <strong>GPU :</strong> {recommendation.gpu}
+                    <strong>Motherboard:</strong> {recommendation.motherboard}
                   </p>
                 </div>
                 <div className="build-component">
                   <p>
-                    <strong>RAM :</strong> {recommendation.ram}
+                    <strong>GPU:</strong> {recommendation.gpu}
                   </p>
                 </div>
                 <div className="build-component">
                   <p>
-                    <strong>Storage :</strong> {recommendation.storage}
+                    <strong>RAM:</strong> {recommendation.ram}
                   </p>
                 </div>
                 <div className="build-component">
                   <p>
-                    <strong>PSU :</strong> {recommendation.psu}
+                    <strong>Storage:</strong> {recommendation.storage}
+                  </p>
+                </div>
+                <div className="build-component">
+                  <p>
+                    <strong>PSU:</strong> {recommendation.psu}
                   </p>
                 </div>
                 <div className="total-cost mt-4 text-xl font-bold">
                   <p>
-                    <strong>Total Cost :</strong> ₹{recommendation.total_cost}
+                    <strong>Total Cost:</strong> ₹{recommendation.total_cost}
                   </p>
                 </div>
               </div>

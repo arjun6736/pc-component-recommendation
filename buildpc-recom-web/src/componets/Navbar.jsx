@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-
+import { Link } from "react-scroll";
+import "../App.css"; // Make sure to create and import your CSS file
 /**
  * Navbar component that displays a fixed navigation bar at the top of the page.
  * The navbar changes its style when the user scrolls down the page.
