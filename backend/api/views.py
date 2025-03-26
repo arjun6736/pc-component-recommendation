@@ -10,10 +10,27 @@ logger = logging.getLogger(__name__)
 
 # Minimum specifications for each sub-category
 MINIMUM_SPECS = {
-    "Budget Build": {"cpu_cores": 4, "gpu_vram": 2, "ram_capacity": 8},
-    "Mid-Range Gaming": {"cpu_cores": 6, "gpu_vram": 6, "ram_capacity": 16},
-    "High-End Gaming": {"cpu_cores": 8, "gpu_vram": 8, "ram_capacity": 32},
-    "Workstation": {"cpu_cores": 12, "gpu_vram": 8, "ram_capacity": 64},
+    "Student PC": {"cpu_cores": 2, "gpu_vram": 1, "ram_capacity": 4},
+    "Office Workstation": {"cpu_cores": 4, "gpu_vram": 2, "ram_capacity": 8},
+    "Casual Home PC": {"cpu_cores": 4, "gpu_vram": 2, "ram_capacity": 8},
+    "Low-Cost Gaming PC": {"cpu_cores": 4, "gpu_vram": 4, "ram_capacity": 8},
+    "Entry-Level Gaming PC": {"cpu_cores": 4, "gpu_vram": 4, "ram_capacity": 8},
+    "Mid-Range Gaming PC": {"cpu_cores": 6, "gpu_vram": 6, "ram_capacity": 16},
+    "High-End Gaming PC": {"cpu_cores": 8, "gpu_vram": 8, "ram_capacity": 32},
+    "Competitive eSports PC": {"cpu_cores": 6, "gpu_vram": 6, "ram_capacity": 16},
+    "Streaming & Gaming Hybrid PC": {"cpu_cores": 8, "gpu_vram": 8, "ram_capacity": 32},
+    "Video Editing Workstation": {"cpu_cores": 8, "gpu_vram": 8, "ram_capacity": 32},
+    "3D Rendering & Animation": {"cpu_cores": 8, "gpu_vram": 8, "ram_capacity": 32},
+    "CAD & Engineering": {"cpu_cores": 8, "gpu_vram": 8, "ram_capacity": 32},
+    "Music Production": {"cpu_cores": 4, "gpu_vram": 2, "ram_capacity": 16},
+    "AI & Machine Learning": {"cpu_cores": 8, "gpu_vram": 8, "ram_capacity": 32},
+    "Software Development": {"cpu_cores": 4, "gpu_vram": 2, "ram_capacity": 16},
+    "Business Workstation": {"cpu_cores": 4, "gpu_vram": 2, "ram_capacity": 16},
+    "Financial Trading PC": {"cpu_cores": 4, "gpu_vram": 2, "ram_capacity": 16},
+    "Server & Home Lab PC": {"cpu_cores": 8, "gpu_vram": 8, "ram_capacity": 32},
+    "Medical & Scientific Computing PC": {"cpu_cores": 8, "gpu_vram": 8, "ram_capacity": 32},
+    "Mini ITX Compact PC": {"cpu_cores": 4, "gpu_vram": 4, "ram_capacity": 16},
+    "Energy-Efficient PC": {"cpu_cores": 4, "gpu_vram": 2, "ram_capacity": 8},
 }
 
 # Budget distribution for each component type
@@ -38,10 +55,16 @@ def get_pc_recommendation(request):
         sub_category = answers[1].get('answer')
         budget = answers[2].get('answer')
         print(build_type, sub_category, budget)
+
         # Step 2: Parse budget
         if 'Custom: ' in budget:
+            # Handle custom budget
             budget = budget.replace('Custom: ', '')
             max_budget = int(budget.replace('₹', '').replace(',', ''))
+        else:
+            # Handle predefined budget range (e.g., "₹120,000 - ₹200,000")
+            budget_range = parse_budget_range(budget)
+            max_budget = budget_range[1]  # Use the upper limit of the range
 
         # Step 3: Check if pre-defined builds exist
         model_map = {
@@ -55,9 +78,15 @@ def get_pc_recommendation(request):
         if not model:
             return Response({'error': 'Invalid build type'}, status=400)
 
-        builds = model.objects.filter(name=sub_category, price_inr__range=parse_budget_range(budget))
+        # Query for predefined builds in the database
+        builds = model.objects.filter(
+            name=sub_category,
+            price_inr__range=parse_budget_range(budget)
+        ).order_by('price_inr')  # Order by price to get the most affordable build within the range
+
         if builds.exists():
-            build = random.choice(builds)
+            # If a predefined build is found, return it
+            build = random.choice(builds)  # Randomly select one build if multiple exist
             recommendation = {
                 "cpu": build.cpu,
                 "motherboard": build.motherboard,
@@ -69,7 +98,7 @@ def get_pc_recommendation(request):
             }
             return Response(recommendation)
 
-        # Step 4: Generate dynamic build
+        # Step 4: Generate dynamic build if no predefined build is found
         specs = MINIMUM_SPECS.get(sub_category, {"cpu_cores": 4, "gpu_vram": 2, "ram_capacity": 8})
         recommendation = generate_dynamic_build(max_budget, specs)
         if recommendation:

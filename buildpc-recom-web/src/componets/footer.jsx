@@ -16,7 +16,7 @@ const Footer = () => {
 
           {/* Choose Now Section */}
           <div>
-            <h4 className="font-semibold text-lg mb-3">Choose Now</h4>
+            <h4 className="font-semibold text-xl mb-3">Choose Now</h4>
             <ul className="space-y-2">
               <li>
                 <a href="#" className="hover:underline">
@@ -70,7 +70,7 @@ const Footer = () => {
 
           {/* My Account */}
           <div>
-            <h4 className="font-semibold text-lg mb-3">Group 2 Team</h4>
+            <h4 className="font-semibold text-xl mb-3">Develepors</h4>
             <ul className="space-y-2">
               <li>
                 <a href="#" className="hover:underline">
@@ -97,15 +97,15 @@ const Footer = () => {
 
           {/* Contact & Social Section */}
           <div>
-            <h4 className="font-semibold text-lg mb-2">Contact Us</h4>
+            <h4 className="font-semibold text-xl mb-2">Contact Us</h4>
             <p>
               <a href="mailto:sample@gmail.com" className="hover:underline">
-                sample@gmail.com
+                mgp202526@gmail.com
               </a>
             </p>
             <p>
-              <a href="tel:+91999999999" className="hover:underline">
-                +91 9999999999
+              <a href="tel:+919349404046" className="hover:underline">
+                +91 9349404046
               </a>
             </p>
           </div>

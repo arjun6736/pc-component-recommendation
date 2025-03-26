@@ -68,7 +68,7 @@ export default function UserPreferences() {
         { text: "Gaming PC Builds", next: 3 },
         { text: "Workstation PC Builds", next: 4 },
         { text: "Professional & Enterprise", next: 5 },
-        { text: "Enthusiast & Niche Builds", next: 6 },
+        // { text: "Enthusiast & Niche Builds", next: 6 },
       ],
     },
     {
@@ -97,11 +97,11 @@ export default function UserPreferences() {
       text: "Workstation PC Builds?",
       options: [
         { text: "Video Editing Workstation", next: 16 },
-        { text: "3D Rendering & Animation", next: 17 },
-        { text: "CAD & Engineering", next: 18 },
-        { text: "Music Production", next: 19 },
-        { text: "AI & Machine Learning", next: 20 },
-        { text: "Software Development", next: 21 },
+        { text: "3D Rendering & Animation PC", next: 17 },
+        { text: "CAD & Engineering Workstation", next: 18 },
+        { text: "Music Production Workstation", next: 19 },
+        { text: "AI & Machine Learning Workstation", next: 20 },
+        { text: "Software Development Workstation", next: 21 },
       ],
     },
     {
@@ -208,8 +208,8 @@ export default function UserPreferences() {
       id: 16,
       text: "Budget?",
       options: [
-        { text: "₹110,000 - ₹200,000", next: 33 },
-        { text: "₹200,000 - ₹240,000", next: 33 },
+        { text: "₹550,000 - ₹700,000", next: 33 },
+        { text: "₹700,000 - ₹900,000", next: 33 },
         { text: "Custom", next: "custom", min: 110000 },
       ],
     },
@@ -217,8 +217,8 @@ export default function UserPreferences() {
       id: 17,
       text: "Budget?",
       options: [
-        { text: "₹300,000 - ₹400,000", next: 33 },
-        { text: "₹400,000 - ₹600,000", next: 33 },
+        { text: "₹600,000 - ₹800,000", next: 33 },
+        { text: "₹800,000 - ₹1,400,000", next: 33 },
         { text: "Custom", next: "custom", min: 300000 },
       ],
     },
@@ -226,8 +226,8 @@ export default function UserPreferences() {
       id: 18,
       text: "Budget?",
       options: [
-        { text: "₹350,000 - ₹750,000", next: 33 },
-        { text: "₹750,000 - ₹950,000", next: 33 },
+        { text: "₹550,000 - ₹750,000", next: 33 },
+        { text: "₹750,000 - ₹1,300,000", next: 33 },
         { text: "Custom", next: "custom", min: 350000 },
       ],
     },
@@ -235,8 +235,8 @@ export default function UserPreferences() {
       id: 19,
       text: "Budget?",
       options: [
-        { text: "₹65,000 - ₹120,000", next: 33 },
-        { text: "₹120,000 - ₹200,000", next: 33 },
+        { text: "₹180,000 - ₹220,000", next: 33 },
+        { text: "₹220,000 - ₹450,000", next: 33 },
         { text: "Custom", next: "custom", min: 65000 },
       ],
     },
@@ -244,8 +244,8 @@ export default function UserPreferences() {
       id: 20,
       text: "Budget?",
       options: [
-        { text: "₹110,000 - ₹280,000", next: 33 },
-        { text: "₹280,000 - ₹420,000", next: 33 },
+        { text: "₹1,600,000 - ₹1,800,000", next: 33 },
+        { text: "₹1,800,000 - ₹2,000,000", next: 33 },
         { text: "Custom", next: "custom", min: 110000 },
       ],
     },
@@ -253,8 +253,8 @@ export default function UserPreferences() {
       id: 21,
       text: "Budget?",
       options: [
-        { text: "₹100,000 - ₹240,000", next: 33 },
-        { text: "₹240,000 - ₹500,000", next: 33 },
+        { text: "₹400,000 - ₹540,000", next: 33 },
+        { text: "₹540,000 - ₹600,000", next: 33 },
         { text: "Custom", next: "custom", min: 100000 },
       ],
     },
@@ -262,8 +262,8 @@ export default function UserPreferences() {
       id: 22,
       text: "Budget?",
       options: [
-        { text: "₹120,000 - ₹260,000", next: 33 },
-        { text: "₹260,000 - ₹500,000", next: 33 },
+        { text: "₹65,000 - ₹100,000", next: 33 },
+        { text: "₹100,000 - ₹200,000", next: 33 },
         { text: "Custom", next: "custom", min: 120000 },
       ],
     },
@@ -271,8 +271,8 @@ export default function UserPreferences() {
       id: 23,
       text: "Budget?",
       options: [
-        { text: "₹560,000 - ₹700,000", next: 33 },
-        { text: "₹700,000 - ₹900,000", next: 33 },
+        { text: "₹120,000 - ₹200,000", next: 33 },
+        { text: "₹200,000 - ₹500,000", next: 33 },
         { text: "Custom", next: "custom", min: 560000 },
       ],
     },
@@ -280,8 +280,8 @@ export default function UserPreferences() {
       id: 24,
       text: "Budget?",
       options: [
-        { text: "₹600,000 - ₹1,000,000", next: 33 },
-        { text: "₹1,000,000 - ₹1,400,000", next: 33 },
+        { text: "₹100,000 - ₹200,000", next: 33 },
+        { text: "₹200,000 - ₹500,000", next: 33 },
         { text: "Custom", next: "custom", min: 600000 },
       ],
     },
@@ -289,8 +289,8 @@ export default function UserPreferences() {
       id: 25,
       text: "Budget?",
       options: [
-        { text: "₹580,000 - ₹880,000", next: 33 },
-        { text: "₹880,000 - ₹1,300,000", next: 33 },
+        { text: "₹120,000 - ₹200,000", next: 33 },
+        { text: "₹200,000 - ₹500,000", next: 33 },
         { text: "Custom", next: "custom", min: 580000 },
       ],
     },
@@ -332,6 +332,7 @@ export default function UserPreferences() {
   const [customBudget, setCustomBudget] = useState("");
   const [showCustomInput, setShowCustomInput] = useState(false);
   const [minBudget, setMinBudget] = useState(0);
+  const [questionHistory, setQuestionHistory] = useState([]); // New state for question history
 
   const handleOptionClick = (option) => {
     if (option.next === "custom") {
@@ -341,11 +342,16 @@ export default function UserPreferences() {
       setMinBudget(min);
       setShowCustomInput(true);
     } else {
-      const updatedAnswers = [
-        ...answers,
-        { questionId: currentQuestion, answer: option.text },
-      ];
+      // Remove answers for the current question and subsequent questions
+      const updatedAnswers = answers.filter(
+        (a) => a.questionId < currentQuestion
+      );
+
+      // Add the new answer for the current question
+      updatedAnswers.push({ questionId: currentQuestion, answer: option.text });
+
       setAnswers(updatedAnswers);
+      setQuestionHistory([...questionHistory, currentQuestion]); // Update history
       setCurrentQuestion(option.next || 33);
     }
   };
@@ -358,10 +364,19 @@ export default function UserPreferences() {
     if (event.key === "Enter") {
       const inputBudget = parseFloat(customBudget);
       if (inputBudget >= minBudget) {
-        setAnswers([
-          ...answers,
-          { questionId: currentQuestion, answer: `Custom: ₹${inputBudget}` },
-        ]);
+        // Remove answers for the current question and subsequent questions
+        const updatedAnswers = answers.filter(
+          (a) => a.questionId < currentQuestion
+        );
+
+        // Add the new custom budget answer for the current question
+        updatedAnswers.push({
+          questionId: currentQuestion,
+          answer: `Custom: ₹${inputBudget}`,
+        });
+
+        setAnswers(updatedAnswers);
+        setQuestionHistory([...questionHistory, currentQuestion]); // Update history
         setCurrentQuestion(33);
         setShowCustomInput(false);
         setCustomBudget("");
@@ -380,6 +395,7 @@ export default function UserPreferences() {
     setCustomBudget("");
     setShowCustomInput(false);
     setMinBudget(0);
+    setQuestionHistory([]); // Reset history
   };
 
   // Submit the answers and fetch the recommendation from the server
@@ -398,6 +414,24 @@ export default function UserPreferences() {
           "An unexpected error occurred. Please try again."
       );
       setRecommendation(null);
+    }
+  };
+
+  // Handle going back to the previous question
+  const handleGoBack = () => {
+    if (questionHistory.length > 0) {
+      const previousQuestion = questionHistory.pop();
+
+      // Remove answers for the current question and subsequent questions
+      const updatedAnswers = answers.filter(
+        (a) => a.questionId < previousQuestion
+      );
+
+      setAnswers(updatedAnswers);
+      setQuestionHistory([...questionHistory]);
+      setCurrentQuestion(previousQuestion);
+      setError(null); // Clear error message
+      setRecommendation(null); // Clear recommendation
     }
   };
 
@@ -422,7 +456,7 @@ export default function UserPreferences() {
                 <button
                   id="options"
                   key={index}
-                  className="w-75 h-15 text-xl font-bold rounded-4xl px-5 transition"
+                  className="w-75 h-15 text-lg font-bold rounded-4xl px-5 transition leading-tight"
                   onClick={() => handleOptionClick(option)}
                 >
                   {option.text}
@@ -449,6 +483,14 @@ export default function UserPreferences() {
                 >
                   Reset
                 </button>
+                {questionHistory.length > 0 && (
+                  <button
+                    className="px-6 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition"
+                    onClick={handleGoBack}
+                  >
+                    Go Back
+                  </button>
+                )}
                 {currentQuestion === 33 && (
                   <button
                     className="px-6 py-2 bg-green-600 rounded-lg hover:bg-green-700 transition"
