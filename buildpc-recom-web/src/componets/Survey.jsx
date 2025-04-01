@@ -210,7 +210,7 @@ export default function UserPreferences() {
       options: [
         { text: "₹550,000 - ₹700,000", next: 33 },
         { text: "₹700,000 - ₹900,000", next: 33 },
-        { text: "Custom", next: "custom", min: 110000 },
+        { text: "Custom", next: "custom", min: 550000 },
       ],
     },
     {
@@ -219,7 +219,7 @@ export default function UserPreferences() {
       options: [
         { text: "₹600,000 - ₹800,000", next: 33 },
         { text: "₹800,000 - ₹1,400,000", next: 33 },
-        { text: "Custom", next: "custom", min: 300000 },
+        { text: "Custom", next: "custom", min: 600000 },
       ],
     },
     {
@@ -228,7 +228,7 @@ export default function UserPreferences() {
       options: [
         { text: "₹550,000 - ₹750,000", next: 33 },
         { text: "₹750,000 - ₹1,300,000", next: 33 },
-        { text: "Custom", next: "custom", min: 350000 },
+        { text: "Custom", next: "custom", min: 550000 },
       ],
     },
     {
@@ -237,7 +237,7 @@ export default function UserPreferences() {
       options: [
         { text: "₹180,000 - ₹220,000", next: 33 },
         { text: "₹220,000 - ₹450,000", next: 33 },
-        { text: "Custom", next: "custom", min: 65000 },
+        { text: "Custom", next: "custom", min: 180000 },
       ],
     },
     {
@@ -246,7 +246,7 @@ export default function UserPreferences() {
       options: [
         { text: "₹1,600,000 - ₹1,800,000", next: 33 },
         { text: "₹1,800,000 - ₹2,000,000", next: 33 },
-        { text: "Custom", next: "custom", min: 110000 },
+        { text: "Custom", next: "custom", min: 1600000 },
       ],
     },
     {
@@ -255,7 +255,7 @@ export default function UserPreferences() {
       options: [
         { text: "₹400,000 - ₹540,000", next: 33 },
         { text: "₹540,000 - ₹600,000", next: 33 },
-        { text: "Custom", next: "custom", min: 100000 },
+        { text: "Custom", next: "custom", min: 400000 },
       ],
     },
     {
@@ -264,7 +264,7 @@ export default function UserPreferences() {
       options: [
         { text: "₹65,000 - ₹100,000", next: 33 },
         { text: "₹100,000 - ₹200,000", next: 33 },
-        { text: "Custom", next: "custom", min: 120000 },
+        { text: "Custom", next: "custom", min: 65000 },
       ],
     },
     {
@@ -273,7 +273,7 @@ export default function UserPreferences() {
       options: [
         { text: "₹120,000 - ₹200,000", next: 33 },
         { text: "₹200,000 - ₹500,000", next: 33 },
-        { text: "Custom", next: "custom", min: 560000 },
+        { text: "Custom", next: "custom", min: 120000 },
       ],
     },
     {
@@ -282,7 +282,7 @@ export default function UserPreferences() {
       options: [
         { text: "₹100,000 - ₹200,000", next: 33 },
         { text: "₹200,000 - ₹500,000", next: 33 },
-        { text: "Custom", next: "custom", min: 600000 },
+        { text: "Custom", next: "custom", min: 100000 },
       ],
     },
     {
@@ -291,7 +291,7 @@ export default function UserPreferences() {
       options: [
         { text: "₹120,000 - ₹200,000", next: 33 },
         { text: "₹200,000 - ₹500,000", next: 33 },
-        { text: "Custom", next: "custom", min: 580000 },
+        { text: "Custom", next: "custom", min: 120000 },
       ],
     },
     {

@@ -25,7 +25,7 @@ const Footer = () => {
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Prebuilt Gaming PC
+                  Prebuild Gaming PC
                 </a>
               </li>
             </ul>
@@ -70,7 +70,7 @@ const Footer = () => {
 
           {/* My Account */}
           <div>
-            <h4 className="font-semibold text-xl mb-3">Develepors</h4>
+            <h4 className="font-semibold text-xl mb-3">Developers</h4>
             <ul className="space-y-2">
               <li>
                 <a href="#" className="hover:underline">
